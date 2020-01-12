@@ -6,3 +6,4 @@ links
 *.csv
 *.xlsx
 *.docx
+venv/
