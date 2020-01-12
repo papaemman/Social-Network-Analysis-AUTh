@@ -1,7 +1,7 @@
 
 import networkx as nx
-from GeneralGreedy import general_greedy
-import dataset_detail, file_handling
+from python_analysis.GeneralGreedy import general_greedy
+from python_analysis import file_handling, dataset_detail
 
 """
     0. Configuration
