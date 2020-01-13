@@ -31,11 +31,11 @@ def read_graph_info(path):
         try:
             f = open(path, 'r')
             txt = f.readlines()
-            # header = str.split(txt[0])
-            # node_num = int(header[0])
-            # edge_num = int(header[1])
+            header = str.split(txt[0])
+            node_num = int(header[0])
+            edge_num = int(header[1])
 
-            for line in txt[0:]:
+            for line in txt[1:]:
                 row = str.split(line)
 
                 src = int(row[0])
@@ -47,13 +47,11 @@ def read_graph_info(path):
                     children[src] = []
                 if parents.get(des) is None:
                     parents[des] = []
-
                 weight = 1
                 edges[(src, des)] = weight
                 children[src].append(des)
                 parents[des].append(src)
-            node_num = 1005
-            edge_num = 25571
+
             return list(nodes), edges, children, parents, node_num, edge_num
         except IOError:
             print('IOError')
@@ -184,7 +182,7 @@ def get_sample_graph(graph):
 
             children[src].append(des)
             parents[des].append(src)
-    return Graph((nodes, edges, children, parents, node_num, len(edges)))
+    return Graph(nodes, edges, children, parents, node_num, len(edges))
 
 
 def BFS(graph, nodes, get_checked_array=False):
@@ -502,49 +500,28 @@ def im_algorithms(filename, seed_size, model):
     graph_path = filename
     seed_size = seed_size
     model = model
-    random_seed = 15
-    np.random.seed(random_seed)
-    graph = Graph(read_graph_info(graph_path))
-
-    q = Queue()
-    if model == 'IC':
-        seeds = degree_discount_ic(k=seed_size, graph=graph)
-        q.put(seeds)
-        seeds = new_greedyIC(graph, k=seed_size, R=10000)
-        q.put(seeds)
-
-    elif model == 'LT':
-        seeds = degree_discount(seed_size, graph)
-        q.put(seeds)
-        seeds = simpath(graph, seed_size, 0.001, 7)
-        q.put(seeds)
-    else:
-        raise ValueError('Model type err')
-
-
-if __name__ == '__main__':
-
-    graph_path = "email.txt"
-    seed_size = 50
-    model = "LT"
     random_seed = 50
-
     np.random.seed(random_seed)
-
-    # if 0 == 0:
     nodes, edges, children, parents, node_num, edge_num = read_graph_info(graph_path)
     graph = Graph(nodes, edges, children, parents, node_num, edge_num)
+
     if model == 'IC':
         if graph.node_num <= 300:
             seeds = new_greedyIC_Mu(graph, k=seed_size, R=10000)
-            print_seeds(seeds)
-        else:
-            seeds = degree_discount_ic(k=seed_size, graph=graph)
+            print("NewGreedy algorithm seed set:")
             print_seeds(seeds)
 
+        seeds = degree_discount_ic(k=seed_size, graph=graph)
+        print("DegreeDiscount IC algorithm seed set:")
+        print_seeds(seeds)
+
     elif model == 'LT':
+        seeds = degree_discount(seed_size, graph)
+        print("DegreeDiscount LT algorithm seed set:")
+        print_seeds(seeds)
         seeds = simpath(graph, seed_size, 0.001, 7)
+        print("Simpath LT algorithm seed set:")
         print_seeds(seeds)
     else:
-        print('Model type err')
+        raise ValueError('Model type err')
 

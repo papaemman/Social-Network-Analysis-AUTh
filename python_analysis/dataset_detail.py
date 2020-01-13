@@ -10,19 +10,23 @@ def details(graph):
     print(clique)
     shortest_path = nx.shortest_path(graph)
     print("Shortest path: ", shortest_path)
-    diameter = nx.diameter(graph)
-    print("Diameter of the graph: %d" % diameter)
+    try:
+        diameter = nx.diameter(graph)
+        print("Diameter of the graph: %d" % diameter)
+    except:
+        print("Graph is not connected!")
 
 
 def measures(graph):
-    degree = nx.degree_centrality(graph)
-    print("Degree centrality:\n", degree)
+    if nx.is_connected(graph):
+        degree = nx.degree_centrality(graph)
+        print("Degree centrality:\n", degree)
 
-    closeness = nx.closeness_centrality(graph)
-    print("Closeness centrality:%.f\n", closeness)
+        closeness = nx.closeness_centrality(graph)
+        print("Closeness centrality:%.f\n", closeness)
 
-    betweenness_centrality = nx.betweenness_centrality(graph)
-    print("Betweenness centrality:%.f\n", betweenness_centrality)
+        betweenness_centrality = nx.betweenness_centrality(graph)
+        print("Betweenness centrality:%.f\n", betweenness_centrality)
 
 
 def cluster(graph):
