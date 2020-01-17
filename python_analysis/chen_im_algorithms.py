@@ -22,41 +22,61 @@ def read_seed_info(path):
 
 # read and analyse the data in the file to obtain a graph object
 def read_graph_info(path):
-    if os.path.exists(path):
+    # if os.path.exists(path):
         parents = {}
         children = {}
         edges = {}
         nodes = set()
 
-        try:
-            f = open(path, 'r')
-            txt = f.readlines()
-            header = str.split(txt[0])
-            node_num = int(header[0])
-            edge_num = int(header[1])
+        node_num = len(path.nodes)
+        edge_num = len(path.edges)
+        iter = path.edges()
+        for n in iter:
+            src = n[0]
+            des = n[1]
+            nodes.add(src)
+            nodes.add(des)
 
-            for line in txt[1:]:
-                row = str.split(line)
+            if children.get(src) is None:
+                children[src] = []
+            if parents.get(des) is None:
+                parents[des] = []
 
-                src = int(row[0])
-                des = int(row[1])
-                nodes.add(src)
-                nodes.add(des)
+            weight = 1
+            edges[(src, des)] = weight
+            children[src].append(des)
+            parents[des].append(src)
+        return list(nodes), edges, children, parents, node_num, edge_num
 
-                if children.get(src) is None:
-                    children[src] = []
-                if parents.get(des) is None:
-                    parents[des] = []
-                weight = 1
-                edges[(src, des)] = weight
-                children[src].append(des)
-                parents[des].append(src)
-
-            return list(nodes), edges, children, parents, node_num, edge_num
-        except IOError:
-            print('IOError')
-    else:
-        print('file can not found')
+    #     try:
+    #         f = open(path, 'r')
+    #         txt = f.readlines()
+    #         header = str.split(txt[0])
+    #         node_num = int(header[0])
+    #         edge_num = int(header[1])
+    #
+    #         for line in txt[1:]:
+    #             row = str.split(line)
+    #
+    #             src = int(row[0])
+    #             des = int(row[1])
+    #             nodes.add(src)
+    #             nodes.add(des)
+    #
+    #             if children.get(src) is None:
+    #                 children[src] = []
+    #             if parents.get(des) is None:
+    #                 parents[des] = []
+    #             weight = 1
+    #             edges[(src, des)] = weight
+    #             children[src].append(des)
+    #             parents[des].append(src)
+    #
+    #         return list(nodes), edges, children, parents, node_num, edge_num
+    #     except IOError:
+    #         print('IOError')
+    # else:
+    #     print('file can not found')
 
 
 def happen_with_prop(rate):
@@ -497,12 +517,12 @@ def simpath(graph, k, r, l):
 
 
 def im_algorithms(filename, seed_size, model):
-    graph_path = filename
+    graph = filename
     seed_size = seed_size
     model = model
     random_seed = 50
     np.random.seed(random_seed)
-    nodes, edges, children, parents, node_num, edge_num = read_graph_info(graph_path)
+    nodes, edges, children, parents, node_num, edge_num = read_graph_info(graph)
     graph = Graph(nodes, edges, children, parents, node_num, edge_num)
 
     if model == 'IC':

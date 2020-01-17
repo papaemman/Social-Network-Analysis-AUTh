@@ -42,3 +42,12 @@ def csv_to_txt(csv_file, txt_file):
 
 def karate_club():
     return nx.karate_club_graph()
+
+
+def test_example():
+    source = [0, 3, 3, 2, 3, 0, 3, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5]
+    target = [2, 3, 4, 5, 6, 7, 8, 9, 2, 3, 4, 5, 6, 7, 8, 9, 6, 7, 8, 9]
+    graph = nx.DiGraph()
+    for i in range(len(source)):
+        graph.add_edge(source[i], target[i])
+    return graph
