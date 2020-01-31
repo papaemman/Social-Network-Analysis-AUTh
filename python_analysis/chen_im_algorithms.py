@@ -5,24 +5,9 @@ import multiprocessing
 from queue import Queue
 
 
-def read_seed_info(path):
-    if os.path.exists(path):
-        try:
-            f = open(path, 'r')
-            txt = f.readlines()
-            seeds = list()
-            for line in txt:
-                seeds.append(int(line))
-            return seeds
-        except IOError:
-            print('IOError')
-    else:
-        print('file can not found')
-
-
 # read and analyse the data in the file to obtain a graph object
 def read_graph_info(path):
-    # if os.path.exists(path):
+
         parents = {}
         children = {}
         edges = {}
@@ -47,36 +32,6 @@ def read_graph_info(path):
             children[src].append(des)
             parents[des].append(src)
         return list(nodes), edges, children, parents, node_num, edge_num
-
-    #     try:
-    #         f = open(path, 'r')
-    #         txt = f.readlines()
-    #         header = str.split(txt[0])
-    #         node_num = int(header[0])
-    #         edge_num = int(header[1])
-    #
-    #         for line in txt[1:]:
-    #             row = str.split(line)
-    #
-    #             src = int(row[0])
-    #             des = int(row[1])
-    #             nodes.add(src)
-    #             nodes.add(des)
-    #
-    #             if children.get(src) is None:
-    #                 children[src] = []
-    #             if parents.get(des) is None:
-    #                 parents[des] = []
-    #             weight = 1
-    #             edges[(src, des)] = weight
-    #             children[src].append(des)
-    #             parents[des].append(src)
-    #
-    #         return list(nodes), edges, children, parents, node_num, edge_num
-    #     except IOError:
-    #         print('IOError')
-    # else:
-    #     print('file can not found')
 
 
 def happen_with_prop(rate):
@@ -337,7 +292,7 @@ def degree_discount_ic(k, graph):
     return seeds
 
 
-# BAD Heuristics algorithm for IC model
+# Heuristics algorithm for IC model
 def degree_discount(k, graph):
     seeds = []
     ddv = np.zeros(graph.node_num)

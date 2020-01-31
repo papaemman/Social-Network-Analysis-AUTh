@@ -1,6 +1,5 @@
-from math import floor,ceil
-"""
-    This algorithm performs in O(knRm)
+""" General Greedy Algorithm
+This algorithm performs in O(knRm)
 """
 
 

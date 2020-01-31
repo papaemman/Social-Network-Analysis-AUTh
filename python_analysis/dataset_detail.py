@@ -35,14 +35,16 @@ def cluster(graph):
 
 
 def community(graph):
-    communities = nx.algorithms.community.greedy_modularity_communities(graph)
-    print("Communities by modularity:")
-    for com in communities:
-        print(list(com))
+
     communities = nx.algorithms.community.asyn_lpa_communities(graph)
     print("Communities by asynchronous label propagation:")
     for com in communities:
         print(list(com))
+
+    modularity = nx.algorithms.community.greedy_modularity_communities(communities)
+    print("Modularity:")
+    for m in modularity:
+        print(list(m))
 
 
 def run_details(graph):

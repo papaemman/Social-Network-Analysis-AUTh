@@ -23,7 +23,7 @@ G = file_handling.read_file(filename)
 ###     2. Details of dataset
 """
 
-# dataset_detail.run_details(G)
+dataset_detail.run_details(G)
 
 """
 ###     3. Influence Maximization
@@ -31,9 +31,6 @@ G = file_handling.read_file(filename)
 
 # chen_im_algorithms.im_algorithms(G, seeds_number, im_model)
 
-"""
-###     2. Greedy algorithm
-"""
 gga = general_greedy(G, seeds_number, R)
 print("Result of GeneralGreedy ",  gga)
 
