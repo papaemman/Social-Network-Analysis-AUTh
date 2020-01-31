@@ -42,9 +42,9 @@ def happen_with_prop(rate):
         return False
 
 
-def print_seeds(seeds):
-    for seed in seeds:
-        print(seed)
+# def print_seeds(seeds):
+#     for seed in seeds:
+#         print(seed)
 
 
 class Graph:
@@ -471,8 +471,8 @@ def simpath(graph, k, r, l):
     return S
 
 
-def im_algorithms(filename, seed_size, model):
-    graph = filename
+def im_algorithms(G, seed_size, model):
+    graph = G
     seed_size = seed_size
     model = model
     random_seed = 50
@@ -484,19 +484,19 @@ def im_algorithms(filename, seed_size, model):
         if graph.node_num <= 300:
             seeds = new_greedyIC_Mu(graph, k=seed_size, R=10000)
             print("NewGreedy algorithm seed set:")
-            print_seeds(seeds)
+            print(seeds)
 
         seeds = degree_discount_ic(k=seed_size, graph=graph)
         print("DegreeDiscount IC algorithm seed set:")
-        print_seeds(seeds)
+        print(seeds)
 
     elif model == 'LT':
         seeds = degree_discount(seed_size, graph)
         print("DegreeDiscount LT algorithm seed set:")
-        print_seeds(seeds)
+        print(seeds)
         seeds = simpath(graph, seed_size, 0.001, 7)
         print("Simpath LT algorithm seed set:")
-        print_seeds(seeds)
+        print(seeds)
     else:
-        raise ValueError('Model type err')
+        raise ValueError('Model type doesn\'t exist. LT or IC')
 
