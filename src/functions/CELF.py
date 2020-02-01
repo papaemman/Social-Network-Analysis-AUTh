@@ -1,5 +1,5 @@
 import heapq
-from python_analysis.GeneralGreedy import independent_cascade
+from src.functions.GeneralGreedy import independent_cascade
 
 
 def celf(graph, k, prob=0.1, n_iters=1000):

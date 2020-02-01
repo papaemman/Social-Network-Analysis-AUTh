@@ -8,6 +8,9 @@
 library(rtweet)
 
 
+# Q: Can I "hack" the twitter API, in order to get more tweets?
+# Ask Maria from Medoid AI.
+
 ## Define passwords ----
 
 # whatever name you assigned to your created app
@@ -51,9 +54,25 @@ tweets$hashtags
 
 
 # Search for 10000 tweets and write in csv file
-df <- search_tweets(q = "#rstats", n = 10000, include_rts = F, retryonratelimit = T)
+df <- search_tweets(q = "#rstats", n = 40000, include_rts = T, retryonratelimit = T)
 
 min(df$created_at)
 max(df$created_at)
 
-write.csv(df, file = "datasets/twitter_data_v2.csv")
+dim(df)
+df <- apply(df, 2, as.character)
+
+write.csv(df, file = "datasets/twitter_data_20203001_rt.csv")
+
+View(df)
+
+## Search for my tweet
+
+
+df <- as.data.frame(df)
+colnames(df)
+df$screen_name
+library(dplyr)
+
+my_first_tweet <- df %>% filter(screen_name == "Papaemman_pan")
+write.csv(my_first_tweet, file = "../datasets/my_first_tweet.csv")

@@ -1,7 +1,7 @@
-from python_analysis import file_handling
-from python_analysis import chen_im_algorithms, CELF
+from src.functions import file_handling
+from src.functions import chen_im_algorithms, CELF
 from python_analysis.celfpp import celf_pp
-from python_analysis.simulation import IC, LT
+from src.functions import IC, LT
 
 """
 ###     0. Configuration
