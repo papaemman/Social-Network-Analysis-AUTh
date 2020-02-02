@@ -10,68 +10,83 @@ with codecs.open(os.path.abspath("with_retweets.csv"), 'r', encoding='utf-8', er
 tweets = pd.read_csv(StringIO(tweets_string), low_memory=False)
 
 re_tweets = tweets[tweets.is_retweet]
-#
-# # re_edges = list()
-# # re_edges.append(["Source", "Target", "Type"])
-#
-# with open(os.path.abspath("./retweet_graph.csv"), "a", encoding="utf-8") as file:
-#     file.write("Source,Target,Type")
-#     file.write("\n")
-#
-# for _index, row in re_tweets.iterrows():
-#     # re_edges.append([str(int(row.retweet_user_id)), str(int(row.user_id)), "Directed"])
-#     edge = "{},{},{}".format(str(int(row.retweet_user_id)), str(int(row.user_id)), "Directed")
-#     with open(os.path.abspath("./retweet_graph.csv"), "a", encoding="utf-8") as file:
-#         file.write(edge)
-#         file.write("\n")
 
-# print("," in tweets.iloc[1].mentions_user_id)
-# lista = tweets.iloc[0].mentions_user_id.split(",")
-# print(lista)
 
-with open(os.path.abspath("./mention_retweet_graph.csv"), "a", encoding="utf-8") as file:
+# Creating retweet graph
+re_edges = set()
+
+with open(os.path.abspath("./retweet_graph1.csv"), "a", encoding="utf-8") as file:
     file.write("Source,Target,Type")
     file.write("\n")
 
-    for _index, row in tweets.iterrows():
+for _index, row in re_tweets.iterrows():
+    edge = "{},{},{}".format(str(int(row.retweet_user_id)), str(int(row.user_id)), "Directed")
+    re_edges.add(edge)
 
-        x = row.mentions_user_id
+for edge in re_edges:
+    with open(os.path.abspath("./retweet_graph1.csv"), "a", encoding="utf-8") as file:
+        file.write(edge)
+        file.write("\n")
 
-        # If this row is a retweet
-        if row.is_retweet:
-            user_id = str(int(float(row.user_id)))
+# ------------------------------------------------
+# Creating mention-retweet graph and mention graph
+re_edges = set()
+re_edges_mention = set()
 
-            file.write("{},{},{}".format(str(int(float(row.retweet_user_id))), user_id, "Directed"))
-            file.write("\n")
+for _index, row in tweets.iterrows():
 
-            # If there are more than one mentions
-            if "," in str(x):
-                mentions = x.split(",")
+    x = row.mentions_user_id
+    user_id = str(int(float(row.user_id)))
 
-                # If retweet user is in mentions remove him
-                if str(row.retweet_user_id) in mentions:
-                    mentions.remove(str(row.retweet_user_id))
+    # If this row is a retweet
+    if row.is_retweet:
 
-                for mention in mentions:
-                    file.write("{},{},{}".format(user_id, str(int(float(mention))), "Directed"))
-                    file.write("\n")
+        re_edges.add("{},{},{}".format(str(int(float(row.retweet_user_id))), user_id, "Directed"))
 
-            # If there is exactly one mention and is not retweet user
-            elif (not math.isnan(float(str(x)))) and int(float(x)) != int(float(row.retweet_user_id)):
-                file.write("{},{},{}".format(user_id, int(float(row.mentions_user_id)), "Directed"))
-                file.write("\n")
+        # If there are more than one mentions
+        if "," in str(x):
+            mentions = x.split(",")
 
-        # If this row is an original tweet
-        else:
-            # Has a list of tweets
-            if "," in str(x):
-                mentions = x.split(",")
+            # If retweet user is in mentions remove him
+            if str(row.retweet_user_id) in mentions:
+                mentions.remove(str(row.retweet_user_id))
 
-                for mention in mentions:
-                    file.write("{},{},{}".format(user_id, str(int(float(mention))), "Directed"))
-                    file.write("\n")
+            for mention in mentions:
+                re_edges.add("{},{},{}".format(user_id, str(int(float(mention))), "Directed"))
+                re_edges_mention.add("{},{},{}".format(user_id, str(int(float(mention))), "Directed"))
 
-            # Has a single mention
-            elif not math.isnan(float(str(x))):
-                file.write("{},{},{}".format(user_id, int(float(row.mentions_user_id)), "Directed"))
-                file.write("\n")
+        # If there is exactly one mention and is not retweet user
+        elif (not math.isnan(float(str(x)))) and int(float(x)) != int(float(row.retweet_user_id)):
+            re_edges.add("{},{},{}".format(user_id, int(float(row.mentions_user_id)), "Directed"))
+            re_edges_mention.add("{},{},{}".format(user_id, int(float(row.mentions_user_id)), "Directed"))
+
+    # If this row is an original tweet
+    else:
+        # Has a list of mentions
+        if "," in str(x):
+            mentions = x.split(",")
+
+            for mention in mentions:
+                re_edges.add("{},{},{}".format(user_id, str(int(float(mention))), "Directed"))
+                re_edges_mention.add("{},{},{}".format(user_id, str(int(float(mention))), "Directed"))
+
+        # Has a single mention
+        elif not math.isnan(float(str(x))):
+            re_edges.add("{},{},{}".format(user_id, int(float(row.mentions_user_id)), "Directed"))
+            re_edges_mention.add("{},{},{}".format(user_id, int(float(row.mentions_user_id)), "Directed"))
+
+with open(os.path.abspath("./mention_retweet_graph1.csv"), "a", encoding="utf-8") as file:
+    file.write("Source,Target,Type")
+    file.write("\n")
+
+    for edge in re_edges:
+        file.write(edge)
+        file.write("\n")
+
+with open(os.path.abspath("./mention_graph1.csv"), "a", encoding="utf-8") as file:
+    file.write("Source,Target,Type")
+    file.write("\n")
+
+    for edge in re_edges_mention:
+        file.write(edge)
+        file.write("\n")
