@@ -1,0 +1,18 @@
+Github repositories:
+
+Repository: networkx_addon
+https://github.com/hhchen1105/networkx_addon?fbclid=IwAR3ieZxA0NvRK_1fFt8YlS1bF9iYHXTVp98FzU7pHfS9HZjpDeGmCVK2NS8
+
+information propagation algorithms: independent_cascade, linear_threshold
+
+
+Influence Algorithms:
+
+1. General Greedy (src/functions/GeneralGreedy.py)
+2. Greedy         (src/functions/chen_im_algorithms.py)
+3. DegreeDiscount (src/functions/chen_im_algorithms.py)
+4. simpath        (src/functions/chen_im_algorithms.py)
+5. CELF           (src/functions/CELF.py)
+6. CELF++         (src/functions/CELFpp.py)
+
+7. SVIM-S         (src/functions/SVIM-S.py)
