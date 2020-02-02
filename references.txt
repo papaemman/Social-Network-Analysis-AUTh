@@ -1,0 +1,6 @@
+Github repositories:
+
+Repository: networkx_addon
+https://github.com/hhchen1105/networkx_addon?fbclid=IwAR3ieZxA0NvRK_1fFt8YlS1bF9iYHXTVp98FzU7pHfS9HZjpDeGmCVK2NS8
+
+information propagation algorithms: independent_cascade, linear_threshold
