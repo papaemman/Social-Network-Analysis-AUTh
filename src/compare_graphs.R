@@ -6,6 +6,8 @@ head(users)
 my_rt_graph <- read.csv("data/processed/retweet_graph_partial.csv", stringsAsFactors = F)
 rt_graph <- read.csv("data/processed/mention_retweet_graph.csv", stringsAsFactors = F)
 
+rt_graph <- read.csv("data/Graphs/retweet_graph1.csv", stringsAsFactors = F)
+
 
 nrow(my_rt_graph) # 10078
 nrow(rt_graph)    # 20501
@@ -44,5 +46,8 @@ setdiff(b,a)
 
 # Sanity check on twitter_data:
 twitter_data <- read.csv("data/raw/with_retweets.csv")
+colnames(twitter_data)
 
-twitter_data %>% filter(screen_name == "darenasc")
+rt_graph %>% filter(target_screen_name == "DataScienceNott")
+
+twitter_data %>% filter(screen_name == "allison_horst") %>% View()
