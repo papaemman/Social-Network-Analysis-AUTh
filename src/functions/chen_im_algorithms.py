@@ -471,32 +471,29 @@ def simpath(graph, k, r, l):
     return S
 
 
-def im_algorithms(G, seed_size, model):
+def im_algorithms(G, seed_size):
     graph = G
     seed_size = seed_size
-    model = model
     random_seed = 50
     np.random.seed(random_seed)
     nodes, edges, children, parents, node_num, edge_num = read_graph_info(graph)
     graph = Graph(nodes, edges, children, parents, node_num, edge_num)
 
-    if model == 'IC':
-        if graph.node_num <= 300:
-            seeds = new_greedyIC_Mu(graph, k=seed_size, R=10000)
-            print("NewGreedy algorithm seed set:")
-            print(seeds)
 
-        seeds = degree_discount_ic(k=seed_size, graph=graph)
-        print("DegreeDiscount IC algorithm seed set:")
-        print(seeds)
+    newGreedy = new_greedyIC_Mu(graph, k=seed_size, R=10000)
+    print("NewGreedy algorithm seed set:")
+    print(newGreedy)
 
-    elif model == 'LT':
-        seeds = degree_discount(seed_size, graph)
-        print("DegreeDiscount LT algorithm seed set:")
-        print(seeds)
-        seeds = simpath(graph, seed_size, 0.001, 7)
-        print("Simpath LT algorithm seed set:")
-        print(seeds)
-    else:
-        raise ValueError('Model type doesn\'t exist. LT or IC')
+    degree_discount_ic_seeds = degree_discount_ic(k=seed_size, graph=graph)
+    print("DegreeDiscount IC algorithm seed set:")
+    print(degree_discount_ic_seeds)
+
+    degree_discount_seeds = degree_discount(seed_size, graph)
+    print("DegreeDiscount LT algorithm seed set:")
+    print(degree_discount_seeds)
+    simpath_seeds = simpath(graph, seed_size, 0.001, 7)
+    print("Simpath LT algorithm seed set:")
+    print(seeds)
+
+    return newGreedy, degree_discount_ic_seeds, degree_discount_seeds, simpath_seeds
 
