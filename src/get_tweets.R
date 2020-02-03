@@ -4,12 +4,10 @@
 #                     #
 #######################
 
-## load twitter package (the rtweet package is recommended now over twitteR)
+# Load twitter package (the rtweet package is recommended now over twitteR)
 library(rtweet)
+library(dplyr)
 
-
-# Q: Can I "hack" the twitter API, in order to get more tweets?
-# Ask Maria from Medoid AI.
 
 ## Define passwords ----
 
@@ -38,41 +36,26 @@ twitter_token <- create_token(
 
 ## Get tweets ----
 
-## search for 20 tweets using the #rstats hashtag
-tweets <- search_tweets(q = "#rstats", n = 20, retryonratelimit = F)
-
-# view the first 3 rows of the dataframe
-head(tweets, n = 3)
-View(tweets)
-
-dim(tweets)
-colnames(tweets)
-
-
-tweets$text
-tweets$hashtags
-
-
-# Search for 10000 tweets and write in csv file
+# Search for all tweets contain #rstats (actually up to 40.000 tweets)
 df <- search_tweets(q = "#rstats", n = 40000, include_rts = T, retryonratelimit = T)
 
-min(df$created_at)
-max(df$created_at)
-
-dim(df)
-df <- apply(df, 2, as.character)
-
-write.csv(df, file = "datasets/twitter_data_20203001_rt.csv")
-
-View(df)
-
-## Search for my tweet
+class(df)
+str(df$created_at)
+print(min(df$created_at))
+print(max(df$created_at))
 
 
-df <- as.data.frame(df)
-colnames(df)
-df$screen_name
-library(dplyr)
+# Append new tweets in the twitter_data.csv file
+twitter_data <- read.csv("data/raw/twitter_data.csv", stringsAsFactors = F)
 
-my_first_tweet <- df %>% filter(screen_name == "Papaemman_pan")
-write.csv(my_first_tweet, file = "../datasets/my_first_tweet.csv")
+class(twitter_data)
+old_max_date <- max(as.POSIXct(twitter_data$created_at))
+str(old_max_date)
+
+# Keep only new tweets
+df <- df %>% filter(created_at > old_max_date)
+
+twitter_data <- rbind(twitter_data, df)
+
+write.csv(twitter_data, file = "data/raw/twitter_data.csv")
+
