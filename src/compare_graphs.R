@@ -1,6 +1,6 @@
-# Load twitter data
-twitter_data <- read.csv("data/raw/twitter_data.csv")
-colnames(twitter_data)
+# Load unique users data
+users <- read.csv("output/unique_users.txt")
+head(users)
 
 # Compare retweet_graphs
 my_rt_graph <- read.csv("data/processed/retweet_graph_partial.csv")
@@ -17,8 +17,20 @@ sum(duplicated(rt_graph))
 
 
 # Join name
-rt_graph <- merge(x = rt_graph, y = twitter_data %>% select(user_id, screen_name), by.x = c("Source"), by.y = c("user_id"))
+rt_graph <- merge(x = rt_graph, y = users, by.x = c("Source"), by.y = c("user_id"))
 rt_graph <- rt_graph %>% rename(source_screen_name = screen_name)
  
-rt_graph <- merge(x = rt_graph, y = twitter_data %>% select(user_id, screen_name), by.x = c("Target"), by.y = c("user_id"))
+rt_graph <- merge(x = rt_graph, y = users, by.x = c("Target"), by.y = c("user_id"))
+rt_graph <- rt_graph %>% rename(target_screen_name = screen_name)
+
 head(rt_graph)
+
+
+# Count unique users
+c(my_rt_graph$screen_name, my_rt_graph$mentions_screen_name) %>% unique() %>% length() # 4276
+c(rt_graph$source_screen_name, rt_graph$target_screen_name) %>% unique() %>% length()  # 2564
+
+
+
+
+
