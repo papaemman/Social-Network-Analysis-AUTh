@@ -10,6 +10,7 @@ library(ggplot2)
 library(plotly)
 library(tidyr)
 library(stringr)
+library(tidytext)
 
 library(wordcloud)
 library(wordcloud2)
@@ -124,7 +125,63 @@ wordcloud2(data=hastags_count_df, size=1.3,
 
 
 
-## Extracting a retweets origin
+
+## Explore text of tweets ----
+
+text <- twitter_data[,"text"]
+head(text)
+class(text)
+str(text)
+
+text_df <- tibble(txt = text)
+
+# remove http elements manually
+text_df$txt <- gsub("http.*","", text_df$txt)
+text_df$txt <- gsub("https.*","", text_df$txt)
+
+# remove punctuation, convert to lowercase, add id for each tweet!
+words <- text_df %>% 
+  dplyr::select(txt) %>%  
+  unnest_tokens(word, txt)
+
+head(words)
+
+# plot the top 15 words -- notice any issues?
+  words %>%
+  count(word, sort = TRUE) %>%
+  top_n(15) %>%
+  mutate(word = reorder(word, n)) %>%
+  ggplot(aes(x = word, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+  labs(x = "Count",
+       y = "Unique words",
+       title = "Count of unique words found in tweets")
+
+# Remove stopwords
+data("stop_words")
+head(stop_words)
+
+words <- words %>%
+  anti_join(stop_words)
+
+# plot the top 15 words -- notice any issues?
+words %>%
+  count(word, sort = TRUE) %>%
+  top_n(15) %>%
+  mutate(word = reorder(word, n)) %>%
+  ggplot(aes(x = word, y = n)) +
+  geom_col() +
+  xlab(NULL) +
+  coord_flip() +
+  labs(y = "Count",
+       x = "Unique words",
+       title = "Count of unique words found in tweets",
+       subtitle = "Stop words removed from the list")
+
+
+## Extracting a retweets origin ----
 filter(rstats, retweet_count > 0) %>% 
   select(text, mentions_screen_name, retweet_count) %>% 
   mutate(text = substr(text, 1, 30)) %>% 
@@ -135,3 +192,30 @@ filter(rstats, retweet_count > 0) %>%
 # Search for my tweet
 my_first_tweet <- twitter_data %>% filter(screen_name == "Papaemman_pan")
 my_first_tweet
+
+
+
+## Explore users location ----
+
+users <- twitter_data %>%
+  group_by(screen_name) %>%
+  summarise(location = unique(location))
+
+users
+
+# How many locations are represented?
+length(unique(users$location)) # 2079
+
+p <- users %>%
+  count(location, sort = TRUE) %>%
+  filter(location != "") %>%  
+  mutate(location = reorder(location, n)) %>%
+  top_n(30) %>%
+  ggplot(aes(x = location, y = n)) +
+  geom_col() +
+  coord_flip() +
+  labs(x = "Count",
+       y = "Location",
+       title = "Where Twitter users are from - unique locations ")
+
+
