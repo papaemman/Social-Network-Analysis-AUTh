@@ -4,9 +4,7 @@ head(users)
 
 # Compare retweet_graphs
 my_rt_graph <- read.csv("data/processed/retweet_graph_partial.csv", stringsAsFactors = F)
-rt_graph <- read.csv("data/processed/mention_retweet_graph.csv", stringsAsFactors = F)
-
-rt_graph <- read.csv("data/Graphs/retweet_graph1.csv", stringsAsFactors = F)
+rt_graph <- read.csv("data/processed/retweet_graph1.csv", stringsAsFactors = F)
 
 
 nrow(my_rt_graph) # 10078
@@ -17,6 +15,9 @@ nrow(rt_graph)    # 20501
 sum(duplicated(my_rt_graph)) # 0 
 sum(duplicated(rt_graph))    # 9123
 
+
+head(my_rt_graph)
+head(rt_graph)
 
 # Join name
 rt_graph <- merge(x = rt_graph, y = users, by.x = c("Source"), by.y = c("user_id"))

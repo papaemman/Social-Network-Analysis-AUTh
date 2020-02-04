@@ -11,7 +11,7 @@ library(tidyverse)
 
 # Import dataset
 # twitter_data <- read.csv("data/raw/with_retweets.csv", stringsAsFactors = F)
-twitter_data <- read.csv("data/raw/twitter_data.csv", stringsAsFactors = F)
+# twitter_data <- read.csv("data/raw/twitter_data.csv", stringsAsFactors = F)
 dim(twitter_data)
 
 
@@ -28,7 +28,6 @@ twitter_data <- twitter_data %>%
   select(screen_name, mentions_screen_name)
 
 head(twitter_data)
-
 
 # Keep rows with multiple names to drop them
 drop_rows <- c()

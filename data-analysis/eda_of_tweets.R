@@ -18,7 +18,7 @@ library(RColorBrewer)
 
 # Import dataset
 twitter_data <- read.csv("data/raw/twitter_data.csv", stringsAsFactors = F)
-
+twitter_data <- read.csv("data/raw/with_retweets.csv", stringsAsFactors = F)
 
 # Explore dataset
 dim(twitter_data)
