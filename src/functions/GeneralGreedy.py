@@ -2,6 +2,8 @@
 This algorithm performs in O(knRm)
 """
 import src.functions.IC
+from copy import deepcopy
+
 # def general_greedy(graph, budget, r=3):
 #     seed_set = []
 #
@@ -21,6 +23,7 @@ import src.functions.IC
 #
 #     return seed_set
 
+
 def general_greedy(graph, budget, r=10000):
     seed_set = []
 
@@ -28,15 +31,17 @@ def general_greedy(graph, budget, r=10000):
     for i in range(0, budget):
         best_node = -1
         best_spread = -1
-
+        print("General greedy node:", i)
         for node in graph.nodes():
             s = 0
+            seed_set_new = deepcopy(seed_set)
             if node not in seed_set:
-                for i in range(r):
-                    temp = src.functions.IC.independent_cascade(graph, seed_set)
+                seed_set_new.append(node)
+                for _ in range(r):
+                    temp = src.functions.IC.independent_cascade(graph, seed_set_new)
                     total_spread = 0
-                    for i in temp:
-                        total_spread += len(i)
+                    for j in temp:
+                        total_spread += len(j)
                     s += total_spread
                 if s > best_spread:
                     best_spread = s

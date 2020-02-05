@@ -11,7 +11,7 @@ import time
 """
 seeds_number = 15
 R = 500
-filename = "mention_graph.txt"
+filename = "retweet_graph.txt"
 
 
 """
@@ -21,9 +21,9 @@ filename = "mention_graph.txt"
 # file_handling.csv_to_txt("./data/processed/mention_graph1.csv", "mention_graph.txt")
 # file_handling.csv_to_txt("./data/processed/retweet_graph1.csv", "retweet_graph.txt")
 
-# G = file_handling.read_file(filename)
+G = file_handling.read_file(filename)
 # G = file_handling.test_example()
-G = file_handling.karate_club()
+# G = file_handling.karate_club()
 
 """
 ###     2. Details of dataset
