@@ -3,7 +3,7 @@ import os
 import heapq
 import multiprocessing
 from queue import Queue
-
+import time
 
 # read and analyse the data in the file to obtain a graph object
 def read_graph_info(path):
@@ -471,7 +471,7 @@ def simpath(graph, k, r, l):
     return S
 
 
-def im_algorithms(G, seed_size):
+def im_algorithms(G, seed_size, R):
     graph = G
     seed_size = seed_size
     random_seed = 50
@@ -479,21 +479,29 @@ def im_algorithms(G, seed_size):
     nodes, edges, children, parents, node_num, edge_num = read_graph_info(graph)
     graph = Graph(nodes, edges, children, parents, node_num, edge_num)
 
+    time_start_new_greedy = time.time()
+    newGreedy = new_greedyIC_Mu(graph, k=seed_size, R=R)
+    time_end_new_greedy = time.time()
+    print("NewGreedy algorithm seed set:", newGreedy)
+    print("in time: %f" % (time_end_new_greedy-time_start_new_greedy))
 
-    newGreedy = new_greedyIC_Mu(graph, k=seed_size, R=10000)
-    print("NewGreedy algorithm seed set:")
-    print(newGreedy)
-
+    time_start_degree_d = time.time()
     degree_discount_ic_seeds = degree_discount_ic(k=seed_size, graph=graph)
-    print("DegreeDiscount IC algorithm seed set:")
-    print(degree_discount_ic_seeds)
+    time_end_degree_d = time.time()
+    print("DegreeDiscount IC algorithm seed set: ", degree_discount_ic_seeds)
+    print("in time: %f" % (time_end_degree_d - time_start_degree_d))
 
+    time_start_degree_lt = time.time()
     degree_discount_seeds = degree_discount(seed_size, graph)
-    print("DegreeDiscount LT algorithm seed set:")
-    print(degree_discount_seeds)
-    simpath_seeds = simpath(graph, seed_size, 0.001, 7)
-    print("Simpath LT algorithm seed set:")
-    print(seeds)
+    time_end_degree_lt = time.time()
+    print("DegreeDiscount LT algorithm seed set:", degree_discount_seeds)
+    print("in time: %f" % (time_end_degree_lt - time_start_degree_lt))
 
-    return newGreedy, degree_discount_ic_seeds, degree_discount_seeds, simpath_seeds
+    time_start_simpath = time.time()
+    # simpath_seeds = simpath(graph, seed_size, 0.001, 7)
+    time_end_simpath = time.time()
+    # print("Simpath LT algorithm seed set:", list(simpath_seeds))
+    print("in time: %f" % (time_end_simpath - time_start_simpath))
+
+    return newGreedy, degree_discount_ic_seeds, degree_discount_seeds, # list(simpath_seeds)
 

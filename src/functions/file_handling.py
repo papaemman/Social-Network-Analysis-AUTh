@@ -1,4 +1,5 @@
 import networkx as nx
+import os
 
 
 def read_file(filename):
@@ -19,7 +20,8 @@ def read_file(filename):
 def csv_to_txt(csv_file, txt_file):
     import csv
     G = nx.Graph()
-    with open(csv_file) as csv_file1:
+
+    with open(os.path.abspath(csv_file)) as csv_file1:
         csv_reader = csv.reader(csv_file1, delimiter=',')
         line = 0
         for row in csv_reader:

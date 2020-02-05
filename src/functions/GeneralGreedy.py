@@ -1,9 +1,8 @@
 """ General Greedy Algorithm
 This algorithm performs in O(knRm)
 """
-
-
-def general_greedy(graph, budget, r=10000):
+import src.functions.IC
+def general_greedy(graph, budget, r=3):
     seed_set = []
 
     # For the number of budget
@@ -19,19 +18,43 @@ def general_greedy(graph, budget, r=10000):
                     best_spread = s
                     best_node = node
         seed_set.append(best_node)
-        print(best_node)
 
     return seed_set
 
+# def general_greedy(graph, budget, r=10000):
+#     seed_set = []
+#
+#     # For the number of budget
+#     for i in range(0, budget):
+#         best_node = -1
+#         best_spread = -1
+#
+#         for node in graph.nodes():
+#             s = 0
+#             if node not in seed_set:
+#                 for i in range(r):
+#                     temp = src.functions.IC.independent_cascade(graph, seed_set)
+#                     total_spread = 0
+#                     for i in temp:
+#                         total_spread += len(i)
+#                     s += total_spread
+#                 if s > best_spread:
+#                     best_spread = s
+#                     best_node = node
+#         seed_set.append(best_node)
+#
+#     return seed_set
 
-def independent_cascade(G, S, node, p=0.1, r=10000):
+
+def independent_cascade(G, S, node, p=0.1, r=3):
     from copy import deepcopy
     from random import random
-    T = deepcopy(S)
-    T.append(node)
+    count = 0
 
-    active_nodes = T[:]
     for i in range(r):
+        T = deepcopy(S)
+        T.append(node)
+        active_nodes = T[:]
         while active_nodes.__len__() > 0:
             new_active_nodes = []
             for u in active_nodes:
@@ -41,5 +64,6 @@ def independent_cascade(G, S, node, p=0.1, r=10000):
                             T.append(v)
                             new_active_nodes.append(v)
             active_nodes = deepcopy(new_active_nodes)
+        count += len(T)
 
-    return len(T) / r
+    return count / r
