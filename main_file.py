@@ -9,8 +9,8 @@ import time
 """
 ###     0. Configuration
 """
-seeds_number = 15
-R = 3
+seeds_number = 4
+R = 10
 filename = "mention_graph.txt"
 
 
@@ -21,9 +21,9 @@ filename = "mention_graph.txt"
 # file_handling.csv_to_txt("./data/processed/mention_graph1.csv", "mention_graph.txt")
 # file_handling.csv_to_txt("./data/processed/retweet_graph1.csv", "retweet_graph.txt")
 
-G = file_handling.read_file(filename)
+# G = file_handling.read_file(filename)
 # G = file_handling.test_example()
-# G = file_handling.karate_club()
+G = file_handling.karate_club()
 
 """
 ###     2. Details of dataset
@@ -42,10 +42,10 @@ print("GeneralGreedy algorithm seed set: ",  gga)
 print("in time: %f" % (time_end_greedy - time_start_greedy))
 
 # simpath_seeds
-newGreedy, degree_discount_ic_seeds, degree_discount_seeds = chen_im_algorithms.im_algorithms(G, seeds_number, r=R)
+newGreedy, degree_discount_ic_seeds, degree_discount_seeds = chen_im_algorithms.im_algorithms(G, seeds_number, R=R)
 
 time_start_celf = time.time()
-celf = CELF.celf(G, seeds_number, R)
+celf = CELF.celf(G, seeds_number, n_iters=R)
 time_end_celf = time.time()
 print("CELF seed set: ",  celf[0])
 print("in time: %f" % (time_end_celf - time_start_celf))
