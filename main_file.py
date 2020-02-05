@@ -9,8 +9,8 @@ import time
 """
 ###     0. Configuration
 """
-seeds_number = 4
-R = 10
+seeds_number = 15
+R = 500
 filename = "mention_graph.txt"
 
 
