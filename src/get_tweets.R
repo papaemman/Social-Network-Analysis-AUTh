@@ -15,14 +15,14 @@ library(dplyr)
 appname <- "MSC_SNA"
 
 # api key (example below is not a real key)
-key <- "FDwKA8VHDboYJY88mZinO25qo"
+key <- "key"
 
 ## api secret (example below is not a real key)
-secret <- "W2gAoeaHEHRF0CG92AqRi3jUb4IoVjLoB92gFSscs4nC41LxW9"
+secret <- "secret"
 
-access_token <- "3353127743-yNwnTfwjPWnXujnKVpjUIJjw3IvGROShMbmN1RK"
+access_token <- "access_token"
 
-access_secret <- "fq5DdujjlZlZXJ01F3U7Wou7M3S7eqtEw3FEOixqhCC0h"
+access_secret <- "access_secret"
 
 # create token named "twitter_token"
 twitter_token <- create_token(
