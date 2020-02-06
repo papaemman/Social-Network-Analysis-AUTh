@@ -47,7 +47,7 @@ def linear_threshold(G, seeds, steps=0):
     # init thresholds
     for n in DG.nodes():
         if 'threshold' not in DG.nodes[n]:
-            DG.nodes[n]['threshold'] = 0.5
+            DG.nodes[n]['threshold'] = 0.9
         elif DG.node[n]['threshold'] > 1:
             raise Exception("node threshold:", DG.node[n]['threshold'], \
                             "cannot be larger than 1")

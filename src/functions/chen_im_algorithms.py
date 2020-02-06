@@ -480,7 +480,7 @@ def im_algorithms(G, seed_size, R):
     graph = Graph(nodes, edges, children, parents, node_num, edge_num)
 
     time_start_new_greedy = time.time()
-    newGreedy = new_greedyIC_Mu(graph, k=seed_size, R=R)
+    newGreedy = new_greedyIC_Mu(graph, k=seed_size, R=R, n=1)
     time_end_new_greedy = time.time()
     print("NewGreedy algorithm seed set:", newGreedy)
     print("in time: %f" % (time_end_new_greedy-time_start_new_greedy))
