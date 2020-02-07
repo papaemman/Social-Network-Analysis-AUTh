@@ -14,14 +14,15 @@
 **Kostantinos Georgiou**
 
 * main_file.py
-
+* gephi visualizations
+* main part of technical report
 
 **Paschalis Frangidis**
 
 * GeneralGreedy.py
 * graph_creation.py
 * chen_im_algorithms.py (adapted/modifications for our own case)
-
+* gephi visualizations
 
 **Panagiotis Papaemmanouil**
 
